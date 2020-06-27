@@ -1,0 +1,83 @@
+html,
+body {
+  height: 100%;
+}
+
+canvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+h1 {
+  font-family: "Pangolin", cursive;
+}
+
+.controls {
+  text-align: center;
+
+  position: absolute;
+  top: 50px;
+  right: 100px;
+  height: 50px;
+  width: 100px;
+}
+.btn {
+  font-size: 20px;
+  padding: 10px;
+  width: 120px;
+  position: absolute;
+  background-color: white;
+  border: none;
+  border-radius: 20px;
+}
+
+.start-btn {
+  margin: auto;
+  display: block;
+  font-size: 20px;
+  padding: 10px;
+  color: white;
+  background-color: #41413f;
+  border: 4px solid #41413f;
+  border-radius: 10px;
+  width: 200px;
+}
+.start-btn:hover {
+  color: white;
+  outline: none;
+  background-color: #41413f;
+  border: 4px solid #f58819;
+  border-radius: 10px;
+  width: 200px;
+}
+.start-btn:active {
+  color: white;
+  outline: none;
+  background-color: #41413f;
+  border: 4px solid #f58819;
+  border-radius: 10px;
+  width: 200px;
+}
+
+.button-margin {
+  margin-bottom: 17px;
+}
+.start {
+  background-image: url("./images/Arm.jpg");
+  background-size: cover;
+}
+.box {
+  z-index: 15;
+  width: 90%;
+  margin: auto;
+}
+.centered {
+  position: fixed;
+
+  top: 43%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
