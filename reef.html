@@ -163,8 +163,8 @@
 
     <!-- Button -->
     <div class="controls">
-      <button class="btn" data-text-swap="Sound on">
-        Sound off
+      <button class="btn" data-text-swap="Sound off">
+        Sound on
       </button>
     </div>
   </body>
@@ -178,11 +178,11 @@
       function () {
         if (button.getAttribute("data-text-swap") == button.innerHTML) {
           button.innerHTML = button.getAttribute("data-text-original");
-          sound.setAttribute("volume", "1");
+          sound.setAttribute("volume", "0");
         } else {
           button.setAttribute("data-text-original", button.innerHTML);
           button.innerHTML = button.getAttribute("data-text-swap");
-          sound.setAttribute("volume", "0");
+          sound.setAttribute("volume", "1");
         }
       },
       false
