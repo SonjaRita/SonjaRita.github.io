@@ -1,0 +1,43 @@
+.btn {
+  font-size: 20px;
+  padding: 10px;
+  width: 120px;
+  position: absolute;
+  background-color: white;
+  border: none;
+  border-radius: 20px;
+}
+.controls {
+  text-align: center;
+
+  position: absolute;
+  top: 50px;
+  right: 100px;
+  height: 50px;
+  width: 100px;
+}
+
+.replaybtn {
+  position: absolute;
+  top: 10%;
+
+  font-size: 20px;
+  padding: 10px;
+  width: 120px;
+  background-color: white;
+  border: none;
+  border-radius: 20px;
+}
+
+.replay {
+  text-align: center;
+  width: 92%;
+}
+
+.hidden {
+	display:none;
+}
+
+.visible {
+	display:block;
+}
