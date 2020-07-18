@@ -10,6 +10,113 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
     <link rel="stylesheet" href="aframe.css" />
   </head>
+  <script>
+    var sound = document.getElementById("directionSound");
+
+    var button = document.getElementById("buttonsound");
+    button.addEventListener(
+      "click",
+      function () {
+        if (button.getAttribute("data-text-swap") == button.innerHTML) {
+          button.innerHTML = button.getAttribute("data-text-original");
+          sound.setAttribute("volume", "1");
+        } else {
+          button.setAttribute("data-text-original", button.innerHTML);
+          button.innerHTML = button.getAttribute("data-text-swap");
+          sound.setAttribute("volume", "0");
+        }
+      },
+      false
+    );
+
+    // Drei Fog Farben, die sich mit der Position verändern
+    AFRAME.registerComponent("fogcolor", {
+      tick: function () {
+        var position = this.el
+          .querySelector("#camera")
+          .getAttribute("position");
+        this.el.setAttribute("fog", "color", getfogcolor());
+
+        function getfogcolor() {
+          var value = 0.6 - -position.y / 100;
+
+          return chroma.hsv(204, 0.8, value).hex();
+        }
+      },
+    });
+
+    //Nicht durch Planes durchschwimmen
+    AFRAME.registerComponent("camerapos", {
+      tick: function () {
+        var cameraPos = this.el.getAttribute("position");
+        // console.log (cameraPos.y);
+        if (cameraPos.y < -38) {
+          cameraPos.y = -38;
+        }
+
+        if (cameraPos.y > 56) {
+          cameraPos.y = 56;
+        }
+      },
+    });
+
+    //hide the replay button
+    $(".replay").addClass("hidden");
+
+    AFRAME.registerComponent("boat", {
+      tick: function () {
+        var cameraPos = document
+          .getElementById("camera")
+          .getAttribute("position");
+        var objectPos = this.el.getAttribute("position");
+
+        var abstand = Math.sqrt(
+          (objectPos.x - cameraPos.x) ** 2 +
+            // mit oder ohne Höhe (= y-Achse?)
+            // ((objectPos.y-cameraPos.y)**2) +
+            (objectPos.z - cameraPos.z) ** 2
+        );
+
+        if (abstand > 72) {
+          sound.setAttribute("src", "#main1");
+        }
+        if (abstand < 72 && abstand > 59) {
+          sound.setAttribute("src", "#main2");
+        }
+        if (abstand < 59 && abstand > 46) {
+          sound.setAttribute("src", "#main3");
+        }
+        if (abstand < 46 && abstand > 33) {
+          sound.setAttribute("src", "#main4");
+          sound.setAttribute("loop", "true");
+        }
+        if (abstand < 33) {
+          sound.setAttribute("src", "#end");
+          sound.setAttribute("src", "#end");
+          sound.setAttribute("loop", "false");
+          $(".replay").removeClass("hidden").addClass("visible");
+        }
+      },
+    });
+
+    AFRAME.registerComponent("str", {
+      tick: function () {
+        var cameraPos = document
+          .getElementById("camera")
+          .getAttribute("position");
+
+        if (
+          cameraPos.x == -57.66343 ||
+          cameraPos.y == 18.42764 ||
+          cameraPos.z == 17.50472
+        ) {
+          this.el.setAttribute("visible", "true");
+        } else {
+          this.el.setAttribute("visible", "false");
+        }
+      },
+    });
+  </script>
   <body>
     <!-- <a-scene> -->
 
@@ -225,111 +332,4 @@
       </button>
     </div>
   </body>
-  <script>
-    var sound = document.getElementById("directionSound");
-
-    var button = document.getElementById("buttonsound");
-    button.addEventListener(
-      "click",
-      function () {
-        if (button.getAttribute("data-text-swap") == button.innerHTML) {
-          button.innerHTML = button.getAttribute("data-text-original");
-          sound.setAttribute("volume", "1");
-        } else {
-          button.setAttribute("data-text-original", button.innerHTML);
-          button.innerHTML = button.getAttribute("data-text-swap");
-          sound.setAttribute("volume", "0");
-        }
-      },
-      false
-    );
-
-    // Drei Fog Farben, die sich mit der Position verändern
-    AFRAME.registerComponent("fogcolor", {
-      tick: function () {
-        var position = this.el
-          .querySelector("#camera")
-          .getAttribute("position");
-        this.el.setAttribute("fog", "color", getfogcolor());
-
-        function getfogcolor() {
-          var value = 0.6 - -position.y / 100;
-
-          return chroma.hsv(204, 0.8, value).hex();
-        }
-      },
-    });
-
-    //Nicht durch Planes durchschwimmen
-    AFRAME.registerComponent("camerapos", {
-      tick: function () {
-        var cameraPos = this.el.getAttribute("position");
-        // console.log (cameraPos.y);
-        if (cameraPos.y < -38) {
-          cameraPos.y = -38;
-        }
-
-        if (cameraPos.y > 56) {
-          cameraPos.y = 56;
-        }
-      },
-    });
-
-    //hide the replay button
-    $(".replay").addClass("hidden");
-
-    AFRAME.registerComponent("boat", {
-      tick: function () {
-        var cameraPos = document
-          .getElementById("camera")
-          .getAttribute("position");
-        var objectPos = this.el.getAttribute("position");
-
-        var abstand = Math.sqrt(
-          (objectPos.x - cameraPos.x) ** 2 +
-            // mit oder ohne Höhe (= y-Achse?)
-            // ((objectPos.y-cameraPos.y)**2) +
-            (objectPos.z - cameraPos.z) ** 2
-        );
-
-        if (abstand > 72) {
-          sound.setAttribute("src", "#main1");
-        }
-        if (abstand < 72 && abstand > 59) {
-          sound.setAttribute("src", "#main2");
-        }
-        if (abstand < 59 && abstand > 46) {
-          sound.setAttribute("src", "#main3");
-        }
-        if (abstand < 46 && abstand > 33) {
-          sound.setAttribute("src", "#main4");
-          sound.setAttribute("loop", "true");
-        }
-        if (abstand < 33) {
-          sound.setAttribute("src", "#end");
-          sound.setAttribute("src", "#end");
-          sound.setAttribute("loop", "false");
-          $(".replay").removeClass("hidden").addClass("visible");
-        }
-      },
-    });
-
-    AFRAME.registerComponent("str", {
-      tick: function () {
-        var cameraPos = document
-          .getElementById("camera")
-          .getAttribute("position");
-
-        if (
-          cameraPos.x == -57.66343 ||
-          cameraPos.y == 18.42764 ||
-          cameraPos.z == 17.50472
-        ) {
-          this.el.setAttribute("visible", "true");
-        } else {
-          this.el.setAttribute("visible", "false");
-        }
-      },
-    });
-  </script>
 </html>
